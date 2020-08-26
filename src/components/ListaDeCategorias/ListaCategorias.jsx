@@ -3,12 +3,16 @@ import './estilo.css';
 class ListaCategorias extends Component {
   constructor() {
     super();
+    this._handler = this._handler.bind(this);
     this.state = {
       categorias: []
     }
   }
   componentDidMount() {
-    this.props.categorias.addHandler(this._handler.bind(this));
+    this.props.categorias.addHandler(this._handler);
+  }
+  componentWillUnmount() {
+    this.props.categorias.removeHandler(this._handler);
   }
   _handler(categorias) {
     this.setState({ ...this.state, categorias });

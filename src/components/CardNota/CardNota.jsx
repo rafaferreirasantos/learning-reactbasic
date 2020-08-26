@@ -6,6 +6,9 @@ class CardNota extends Component {
     const index = this.props.index;
     this.props.deleteAction(index);
   }
+  componentWillUnmount() {
+    console.log("Destruindo card de nota");
+  }
   render() {
     return (
       <section className="card-nota">

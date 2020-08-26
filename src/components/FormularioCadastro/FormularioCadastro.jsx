@@ -6,6 +6,7 @@ class FormularioCadastro extends Component {
 
   constructor(props) {
     super(props)
+    this._handler = this._handler.bind(this)
     this.titlo = "";
     this.msg = "";
     this.categoria = "Sem categoria";
@@ -14,7 +15,10 @@ class FormularioCadastro extends Component {
     }
   }
   componentDidMount() {
-    this.props.categorias.addHandler(this._handler.bind(this));
+    this.props.categorias.addHandler(this._handler);
+  }
+  componentWillUnmount() {
+    this.props.categorias.removeHandler(this._handler);
   }
   _handler(categorias) {
     this.setState({ ...this.state, categorias });

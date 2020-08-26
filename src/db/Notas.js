@@ -21,7 +21,7 @@ export default class Notas {
     this._handlers.push(handler);
   }
   removeHandler(handler) {
-    delete this.handler[handler];
+    this._handlers = this._handlers.filter(f => f !== handler);
   }
 }
 export class Nota {
