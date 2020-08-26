@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './estilo.css';
+import { Nota } from '../../db/Notas';
 
 class FormularioCadastro extends Component {
 
@@ -7,6 +8,16 @@ class FormularioCadastro extends Component {
     super(props)
     this.titlo = "";
     this.msg = "";
+    this.categoria = "Sem categoria";
+    this.state = {
+      categorias: []
+    }
+  }
+  componentDidMount() {
+    this.props.categorias.addHandler(this._handler.bind(this));
+  }
+  _handler(categorias) {
+    this.setState({ ...this.state, categorias });
   }
 
   _handleTitleChanged(event) {
@@ -21,15 +32,29 @@ class FormularioCadastro extends Component {
     event.preventDefault();
     event.stopPropagation();
     //Criar nota
-    this.props.criarNota(this.titulo, this.msg);
+    this.props.criarNota(new Nota(this.titulo, this.msg, this.categoria));
     document.querySelector("#title").value = "";
     document.querySelector("#msg").value = "";
+  }
+  _handleCategoriaChanged(event) {
+    event.stopPropagation();
+    this.categoria = event.target.value;
   }
 
   render() {
     return (
       <form className="form-cadastro"
         onSubmit={this._handleSubmit.bind(this)}>
+        <select className="form-cadastro_input" name="categoria" id="" onChange={this._handleCategoriaChanged.bind(this)}>
+          <option defaultChecked={true}>Sem categoria</option>
+          {
+            this.state.categorias.map((categoria, index) => {
+              return (
+                <option key={index} value={categoria}>{categoria}</option>
+              )
+            })
+          }
+        </select>
         <input
           type="text"
           name=""

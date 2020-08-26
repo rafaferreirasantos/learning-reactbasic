@@ -1,30 +1,24 @@
 import React, { Component } from 'react';
 import ListaNotas from './components/ListaDeNotas';
-import FormularioCadastro from './components/FormularioCadastro'
+import FormularioCadastro from './components/FormularioCadastro';
+import ListaCategorias from './components/ListaDeCategorias';
 import "./assets/App.css";
+import Categorias from './db/Categorias';
+import Notas from './db/Notas';
 class App extends Component {
-
   constructor() {
     super();
-    this.state = {
-      notas: [],
-    };
+    this.categorias = new Categorias();
+    this.notas = new Notas();
   }
-
-  criarNota(titulo, msg) {
-    console.log(`Uma nova nota foi criada. Título: ${titulo}, mensage: ${msg}`);
-    console.log("Rafael");
-    this.setState({
-      notas: [...this.state.notas, { titulo, msg }]
-    });
-  }
-
   render() {
-    console.log("Renderizando...");
     return (
       <section className="conteudo">
-        <FormularioCadastro criarNota={this.criarNota.bind(this)} />
-        <ListaNotas notas={this.state.notas} />
+        <FormularioCadastro criarNota={this.notas.adicionarNota.bind(this.notas)} categorias={this.categorias} />
+        <main className="conteudo-principal">
+          <ListaCategorias categorias={this.categorias} addCategoria={this.categorias.adicionarCategoria.bind(this.categorias)} />
+          <ListaNotas notas={this.notas} deleteAction={this.notas.deletarNota.bind(this.notas)} />
+        </main>
       </section>
     );
   }
